@@ -1,16 +1,36 @@
 import { Fragment } from "react";
+import { Error } from "./Error";
 import { MARCAS, YEARS, PLANES } from "../constants";
+import { useCotizador } from "../hooks/useCotizador";
 
 export const Formulario = () => {
-  console.log(YEARS);
+  const { datos, handleChangeDatos, error, setError } = useCotizador();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (Object.values(datos).includes("")) {
+      setError("Todos los campos son obligatorios.");
+      return;
+    }
+
+    setError("");
+  };
+
   return (
     <>
-      <form action="" className="p-3">
+      {error && <Error />}
+      <form className="p-3" onSubmit={handleSubmit}>
         <div className="mb-3">
           <label className="block mb-2 font-bold text-gray-400 uppercase">
             Marca
           </label>
-          <select className="w-full border border-gray-400 rounded p-2">
+          <select
+            name="marca"
+            className="w-full border border-gray-400 rounded p-2"
+            onChange={(e) => handleChangeDatos(e)}
+            value={datos.marca}
+          >
             <option value="">Seleccione una marca</option>
             {MARCAS.map((marca) => (
               <option key={marca.id} value={marca.id}>
@@ -23,7 +43,12 @@ export const Formulario = () => {
           <label className="block mb-2 font-bold text-gray-400 uppercase">
             Año
           </label>
-          <select className="w-full border border-gray-400 rounded p-2">
+          <select
+            name="year"
+            className="w-full border border-gray-400 rounded p-2"
+            onChange={(e) => handleChangeDatos(e)}
+            value={datos.year}
+          >
             <option value="">Seleccione un año</option>
             {YEARS.map((year) => (
               <option key={year} value={year}>
@@ -44,14 +69,19 @@ export const Formulario = () => {
                   name="plan"
                   value={plan.id}
                   className="w-4 h-4"
-                  />
-                  <label className="mr-3">{plan.nombre}</label>
+                  onChange={(e) => handleChangeDatos(e)}
+                />
+                <label className="mr-3">{plan.nombre}</label>
               </Fragment>
             ))}
           </div>
         </div>
 
-        <input type="submit" className="w-full bg-sky-500 hover:bg-sky-600 transition-colors text-white cursor-pointer p-2 uppercase font-bold" value={'Cotizar'} />
+        <input
+          type="submit"
+          className="w-full bg-sky-500 hover:bg-sky-600 transition-colors text-white cursor-pointer p-2 uppercase font-bold"
+          value={"Cotizar"}
+        />
       </form>
     </>
   );
