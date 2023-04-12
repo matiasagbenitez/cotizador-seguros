@@ -80,7 +80,7 @@ export const Formulario = () => {
 
         <input
           type="submit"
-          className="w-full bg-sky-500 hover:bg-sky-600 transition-colors text-white cursor-pointer p-2 uppercase font-bold"
+          className="w-full bg-slate-500 hover:bg-slate-800 transition-colors text-white cursor-pointer p-2 uppercase font-bold"
           value={"Cotizar"}
         />
       </form>
